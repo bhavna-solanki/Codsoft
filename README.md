@@ -1,58 +1,58 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import wordnet
-import bs4 as bs4
+import bs4 as bs
 import warnings
 import urllib.request
-import mltk
+import nltk
 import random
-import string 
-import request
+import string
+import re
 
 warnings.filterwarnings('ignore')
 
 synonyms = []
 for syn in wordset.synsets('hello'):
     for lem in syn.lemmas():
-        lem_name + re.sub(r'\[[0-9]*\]',' ', lem.name())
-       lem_name + re.sub(r'\s+',' ', lem.name())
-       synonyms.append(lem_name) 
-       
+        lem_name = re.sub(r'\[[0-9]*\]',' ', lem.name())
+        lem_name = re.sub(r'\s+',' ', lem.name())
+        synonyms.append(lem_name)
+
        #inputs for greetings
-       greeting_inputs = ['hey','hello','hie','whats up','Good Morning','Good Afternoon','Good Evening','Morning','Evening','Afternoon','Hey there','Hello there']
+        greeting_inputs = ['hey','hello','hie','whats up','Good Morning','Good Afternoon','Good Evening','Morning','Evening','Afternoon','Hey there','Hello there']
        #concatenating the synonyms and the inputs for greeting
-       greeting_inputs + greeting_inputs + synonyms
+        greeting_inputs = greeting_inputs + synonyms
        #Inputs for a normal conversation
-       covo_inputs + ['How are you','How are you doing','you good']
-       #greeting responses by the bot 
-       greeting_responses = ['Hello! How can I help you?',
+        covo_inputs = ['How are you','How are you doing','you good']
+       #greeting responses by the bot
+        greeting_responses = ['Hello! How can I help you?',
        'Hey there! So what do you wanna know?',
        'Hi, you can ask me anything regarding Bhavna',
-       'Hello ! Wanna know about Bhavna?'Just ask away anything about her!]
+       'Hello ! Wanna know about Bhavna? Just ask away anything about her!']
        #coversation responses by the bot
-       convo_responses = [Awesome','Great! What about you?','Getting bored sitting at home :( wbu??),'Not too Good']
+        convo_responses = ['Awesome','Great! What about you?','Getting bored sitting at home:( wbu??','Not too Good']
        #conversation replies by the user
-       convo_replies = ['Great','I am fine','fine','good','excited','super','suberb','super great','nice','cool']
+        convo_replies = ['Great','I am fine','fine','good','excited','super','suberb','super great','nice','cool']
        #few limited Questions and Answers given as dictionary
-       question_answers + {'what are you': 'I am bot, to-bot :1',
+        question_answers + {'what are you': 'I am bot, to-bot :1',
        'who are you': 'I am bot, to-bot :1',
        'what can you do': 'Answer Questions Regarding Bhavna and Education from her Institute',
        'what do you do' : 'Answer Questions Regarding Bhavna and Education from her Institute'}
        #Fetching raw html data about the university from wiki
-       raw_data = urllib.request.urlopen('https://en.wikipedia.org/wiki/University_(oraganisation)')
+        raw_data = urllib.request.urlopen('https://en.wikipedia.org/wiki/University_(oraganisation)')
        #processing the raw htm; into more readable data
-       raw_data = raw_data.read()
+        raw_data = raw_data.read()
 
        #turning html into text
-       article + bs.BeautifulSoup(raw_data, 'lxml')
+        article = bs.BeautifulSoup(raw_data, 'lxml')
 
        #extracting paras from the above xml and concantenating with article_text
-       paragraphs = article.find_all('p')
+        paragraphs = article.find_all('p')
 
-       article_text = ''
+        article_text = ''
 
-       for p in paragraphs:
-        article_text += p.text
+        for p in paragraphs:
+         article_text += p.text
 
         article_text = article_text.lower()
 
@@ -87,12 +87,12 @@ for syn in wordset.synsets('hello'):
                                 if punc_remove(hello.lower()) in greeting_inputs:
                                     return random.choice(greeting_responses)
 
-                                    # method to generate a response to conversations 
+                                    # method to generate a response to conversations
                                     def generate_convo_response(str):
                                         if punc_remove(str.lower()) in convo_inpus:
                                             return random.choice(convo_responses)
 
-                                            # method to generae a answers to questions 
+                                            # method to generae a answers to questions
                                             def generate_answers(str):
                                                 if punc_remove(str.lower()) in question_answers:
                                                     return question_answers[punc_remove(str.lower())]
@@ -114,7 +114,7 @@ for syn in wordset.synsets('hello'):
                                                         if vector_matched is 0:
                                                             bhavnarobo_response = bhavnarobo_response + 'Sorry, I am not aware about that information.Try something different and related to bhavna and her University.'
                                                             return bhavnarobo_response
-                                                            else:  
+                                                        else:
                                                                 bhavnarobo_response = bhavnarobo_response + sentences[similar_sentence_number]
                                                                 return bhavnarobo_response
 
@@ -126,25 +126,34 @@ for syn in wordset.synsets('hello'):
                                                                     user_input = punc_remove(user_input)
                                                                     if user_input != 'bye':
                                                                         if user_input == 'thanks' or user_input == 'thank you very much' or user_input == 'thank you':
-                                                                            continue_chat = False 
+                                                                            continue_chat = False
                                                                             print('Bhavnarobo: Not a problem! (AND WELCOME! :D)')
-                                                                            elseif user_input in convo_replies:
+                                                                        elif user_input in convo_replies:
                                                                                 print('That\'s nice! How may I be of assistance?')
                                                                                 continue
-                                                                                else:
+                                                                        else:
                                                                                     if generate_greeting_response(user_input) is not None:
                                                                                         print('Bhavnarobo: ' + generate_greeting_response(user_input))
-                                                                                        elseif generate_convo_response(user_input) is not None:
+                                                                                    elif generate_convo_response(user_input) is not None:
                                                                                             print('Bhavnarobo: ' + generate_convo_response(user_input))
-                                                                                            elseif generate_answers(user_input)is not None:
+                                                                                    elif generate_answers(user_input)is not None:
                                                                                                 print('Bhavnarobo: ' + generate_answers(user_input))
-                                                                                                else:
+                                                                                    else:
                                                                                                     print('Bhavnarobo:', end='')
                                                                                                     print(greeting_responses(user_input))
                                                                                                     sentences.remove(user_inputs)
-                                                                                                    else:
+                                                                    else:
                                                                                                         continue_chat = False
                                                                                                         print('Bhavnarobo: Bye, take care, stay home and stay safe and stay healthy')
+
+
+
+
+
+
+
+
+
                                                                                                         
 
 
